@@ -1,0 +1,10 @@
+server:
+  port: ":8080"
+
+geoip:
+  db_path: "./GeoLite2-Country.mmdb"
+
+cache:
+  address: "redis:6379"
+  password: ""
+  db: 0

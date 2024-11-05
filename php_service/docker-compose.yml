@@ -1,0 +1,33 @@
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    networks:
+      - geoip-network-php
+
+  app:
+    build: .
+    depends_on:
+      - redis
+    ports:
+      - "8081:80"
+    networks:
+      - geoip-network-php
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+  
+  test:
+    build: .
+    depends_on:
+      - redis
+    networks:
+      - geoip-network-php
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    command: ["./vendor/bin/phpunit", "--configuration", "phpunit.xml"]
+
+networks:
+  geoip-network-php:
+    driver: bridge
